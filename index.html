@@ -1,0 +1,346 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>KP's Calculator</title>
+  <style>
+    #calc-body {
+      width: 60%;
+      max-width: 500px;
+      min-width: 300px;
+      margin: auto;
+      border: 2px solid grey;
+      padding: 4px;
+      overflow: auto;
+    }
+    
+    
+    #display {
+      min-height: 16px;
+      border: 2px solid grey;
+      padding: 4px;
+    }
+    
+    #numbers {
+      float: left;
+      width: 75%;
+      padding: 0px;
+      margin-top: 10px;
+      border-right: solid black 1px;
+    }
+    
+    #numbers button {
+      padding: 0px;
+      width: 28%;
+      margin: 4px;
+      height: 40px;
+      display: block;
+      float: left;
+    }
+    
+    #signs {
+      float: left;
+      padding: 0px 4px;
+      width: 21%;
+      border-left: solid black 1px;
+      margin-top: 10px;
+    }
+    
+    #signs button {
+      width: 100%;
+      margin: 4px;
+      height: 40px;
+    }
+    
+    #errors {
+      clear: both;
+      color: #f00;
+    }
+    
+    @media screen and (max-width:500px){
+      #calc-body {
+        width: 100%;
+        max-width: 100%;
+      }
+      #numbers button, #signs button {
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <section id="calc-body">
+      <p id="display"></p>
+      <p id="errors"></p>
+      <div id="numbers">
+        <button type="button" id="nine">9</button>
+        <button type="button" id="eight">8</button>
+        <button type="button" id="seven">7</button>
+        <button type="button" id="six">6</button>
+        <button type="button" id="five">5</button>
+        <button type="button" id="four">4</button>
+        <button type="button" id="three">3</button>
+        <button type="button" id="two">2</button>
+        <button type="button" id="one">1</button>
+        <button type="button" id="zero" style="width:89%;">0</button>
+        <button type="button" id="clear" style="width:43%;">C</button>
+        <button type="button" id="dot" style="width:43%;">.</button>
+      </div>
+      <div id="signs">
+        <button type="button" id="divide">/</button>
+        <button type="button" id="multiply">X</button>
+        <button type="button" id="subtract">-</button>
+        <button type="button" id="add">+</button>
+        <button type="button" id="equals">=</button>
+        
+      </div>
+    </section>
+
+  </div>
+
+
+  <script>
+    var numberString = '',
+      numbers = [],
+      symbols = [],
+      canInputOperator = false,
+      canInputNumber = true;
+
+
+    /* Prints Input to Display
+    ==================================== */
+
+    function printNumber(input) {
+      document.getElementById('display').innerHTML += ' ' + input + ' ';
+
+
+      if (input === "+") {
+        numbers.push(Number(numberString));
+        symbols.push('+');
+        numberString = '';
+      } else if (input === "-") {
+        numbers.push(Number(numberString));
+        symbols.push('-');
+        numberString = '';
+      } else if (input === "x") {
+        numbers.push(Number(numberString));
+        symbols.push('x');
+        numberString = '';
+      } else if (input === "/") {
+        numbers.push(Number(numberString));
+        symbols.push('/');
+        numberString = '';
+      } else if (input === "=") {
+        symbols.push('=');
+      } else if (input === ".") {
+        numberString += '.';
+      } else {
+        numberString += input;
+      }
+
+    }
+
+    /* Does the Math
+    ==================================== */
+    function findEquation() {
+      numbers.push(Number(numberString));
+      var runningTotal = numbers[0],
+        total = 0,
+        length = numbers.length - 1;
+
+      for (var n = 0; n < length; n++) {
+        if (symbols[n] == "+") {
+          runningTotal += numbers[n + 1];
+        }
+        if (symbols[n] == "-") {
+          runningTotal -= numbers[n + 1];
+        }
+        if (symbols[n] == "x") {
+          runningTotal *= numbers[n + 1];
+        }
+        if (symbols[n] == "/") {
+          runningTotal /= numbers[n + 1];
+        }
+      }
+
+
+      printNumber(runningTotal);
+      numberString = runningTotal;
+    }
+
+
+
+    /* Listening for user input on buttons
+    ==================================== */
+
+    document.getElementById('nine').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(9);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+
+    document.getElementById('eight').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(8);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+
+    document.getElementById('seven').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(7);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+
+    document.getElementById('six').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(6);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+
+    document.getElementById('five').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(5);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+
+    document.getElementById('four').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(4);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+
+    document.getElementById('three').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(3);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear or clear';
+      }
+    });
+
+    document.getElementById('two').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(2);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+
+    document.getElementById('one').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(1);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+
+    document.getElementById('zero').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber(0);
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+    
+    document.getElementById('dot').addEventListener("click", function () {
+      if (canInputNumber) {
+        printNumber('.');
+        canInputOperator = true;
+        document.getElementById('errors').innerHTML = '';
+      } else {
+        document.getElementById('errors').innerHTML = 'Must use operator first or clear';
+      }
+    });
+
+    document.getElementById('multiply').addEventListener("click", function () {
+      if (canInputOperator) {
+        printNumber('x');
+        canInputNumber = true;
+      } else {
+        document.getElementById('errors').innerHTML = 'Must enter number first';
+      }
+    });
+
+    document.getElementById('divide').addEventListener("click", function () {
+      if (canInputOperator) {
+        printNumber('/');
+        canInputNumber = true;
+      } else {
+        document.getElementById('errors').innerHTML = 'Must enter number first';
+      }
+    });
+
+    document.getElementById('subtract').addEventListener("click", function () {
+      if (canInputOperator) {
+        printNumber('-');
+        canInputNumber = true;
+      } else {
+        document.getElementById('errors').innerHTML = 'Must enter number first';
+      }
+    });
+
+    document.getElementById('add').addEventListener("click", function () {
+      if (canInputOperator) {
+        printNumber('+');
+        canInputNumber = true;
+      } else {
+        document.getElementById('errors').innerHTML = 'Must enter number first';
+      }
+    });
+
+    document.getElementById('equals').addEventListener("click", function () {
+      if (canInputOperator) {
+        printNumber('=');
+        findEquation();
+        numbers = [];
+        symbols = [];
+        canInputNumber = false;
+      }
+    });
+
+    document.getElementById('clear').addEventListener("click", function () {
+      document.getElementById('display').innerHTML = ' ';
+      numbers = [];
+      symbols = [];
+      numberString = '';
+      canInputOperator = false;
+      canInputNumber = true;
+      document.getElementById('errors').innerHTML = '';
+    });
+  </script>
+</body>
+
+</html>
