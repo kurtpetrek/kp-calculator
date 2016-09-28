@@ -176,7 +176,8 @@
       numbers = [],
       symbols = [],
       canInputOperator = false,
-      canInputNumber = true;
+      canInputNumber = true,
+      canInputDecimal = true;
 
 
     /* Prints Input to Display
@@ -190,24 +191,32 @@
         numbers.push(Number(numberString));
         symbols.push('+');
         numberString = '';
+        canInputDecimal = true;
       } else if (input === "-") {
         numbers.push(Number(numberString));
         symbols.push('-');
         numberString = '';
+        canInputDecimal = true;
       } else if (input === "x") {
         numbers.push(Number(numberString));
         symbols.push('x');
         numberString = '';
+        canInputDecimal = true;
       } else if (input === "/") {
         numbers.push(Number(numberString));
         symbols.push('/');
         numberString = '';
+        canInputDecimal = true;
       } else if (input === "=") {
         symbols.push('=');
       } else if (input === ".") {
-        numberString += '.';
-        document.getElementById('display').innerHTML += input;
         printed = true;
+        if (canInputDecimal) {
+          numberString += '.';
+          document.getElementById('display').innerHTML += input;
+          printed = true;
+          canInputDecimal = false;
+        }
       } else {
         numberString += input;
         document.getElementById('display').innerHTML += input;
@@ -448,6 +457,7 @@
       numberString = '';
       canInputOperator = false;
       canInputNumber = true;
+      canInputDecimal = true;
       document.getElementById('errors').innerHTML = '';
     });
   </script>
