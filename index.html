@@ -172,7 +172,6 @@
 
 
   <script>
-    
     var numberString = '',
       numbers = [],
       symbols = [],
@@ -225,30 +224,62 @@
     ==================================== */
     function findEquation() {
       numbers.push(Number(numberString));
-      var runningTotal = numbers[0],
-        total = 0,
-        length = numbers.length - 1;
+      var containsMD = lookForMD();
 
-      for (var n = 0; n < length; n++) {
+      while (containsMD) {
+        for (var n = 0; n < numbers.length - 1; n++) {
+          if (symbols[n] == "x") {
+            numbers[n] *= numbers[n + 1];
+            numbers.splice(n + 1, 1);
+            symbols.splice(n, 1);
+            break;
+          }
+          if (symbols[n] == "/") {
+            numbers[n] /= numbers[n + 1];
+            numbers.splice(n + 1, 1);
+            symbols.splice(n, 1);
+            break;
+          }
+        }
+        containsMD = lookForMD();
+      }
+
+      printNumber(preformAddSubtract());
+      numberString = preformAddSubtract();
+      return numberString;
+    }
+
+
+    /* Looks for multiplication and division
+    ==================================== */
+
+    function lookForMD() {
+      for (var n = 0; n < symbols.length - 1; n++) {
+        if (symbols[n] == "x") {
+          return true;
+        }
+        if (symbols[n] == "/") {
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    /* Preforms Addition / subtraction
+    ==================================== */
+    
+    function preformAddSubtract() {
+      var runningTotal = numbers[0];
+      for (var n = 0; n < numbers.length - 1; n++) {
         if (symbols[n] == "+") {
           runningTotal += numbers[n + 1];
         }
         if (symbols[n] == "-") {
           runningTotal -= numbers[n + 1];
         }
-        if (symbols[n] == "x") {
-          runningTotal *= numbers[n + 1];
-        }
-        if (symbols[n] == "/") {
-          runningTotal /= numbers[n + 1];
-        }
       }
-
-
-      printNumber(runningTotal);
-      numberString = runningTotal;
+      return runningTotal;
     }
-
 
 
     /* Listening for user input on buttons
