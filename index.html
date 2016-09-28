@@ -253,8 +253,8 @@
         containsMD = lookForMD();
       }
 
-      printNumber(preformAddSubtract());
-      numberString = preformAddSubtract();
+      printNumber(parseFloat(preformAddSubtract().toFixed(6)));
+      numberString = parseFloat(preformAddSubtract().toFixed(6));
       return numberString;
     }
 
